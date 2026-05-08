@@ -1,10 +1,10 @@
-# Word Reader - Project Instructions
+# Word Reader - Instruction Redirect
 
-## Role Alignment
-- **Gemini**: Lead Frontend Engineer. Responsible for UI/UX, React components, and CSS systems.
-- **Backend/DB**: Handled by other agents or manually.
+> **[SSoT] 唯一事实来源声明**
 
-## Technical Standards
-- **TTS**: Frontend Web Speech API only.
-- **Settings**: Stored in SQLite `settings` table.
-- **UI**: Amber-Gold theme, No Tailwind.
+本项目的所有技术规范、UI/UX 指令、红线约束及协作分工均统一维护在 **[CLAUDE.md](./CLAUDE.md)** 中。
+
+**作为 Gemini Agent，你必须：**
+1. 立即跳转并阅读 [CLAUDE.md](./CLAUDE.md) 以获取最新的项目上下文。
+2. 严禁在本项目中维护独立的、不一致的 `GEMINI.md` 或其他指令文件。
+3. 确保所有改动均符合主宪法中的角色分工（Gemini = 前端专家）。
