@@ -14,7 +14,8 @@ import {
     DeleteArticle
 } from '../../wailsjs/go/main/App';
 import { Speak } from './utils/tts';
-import type { TranslateResult, WordBookItem, Article } from './types.js';
+import type { TranslateResult, WordBookItem } from './types.js';
+import logo from './assets/images/logo-universal.png';
 
 type Page = 'reading' | 'wordbook' | 'articles' | 'settings';
 
@@ -120,7 +121,6 @@ function App() {
     };
 
     const handleStartReading = () => {
-        // improved word boundary split to keep numbers and letters together
         const segments = text.split(/([a-zA-Z0-9'-]+)/g);
         setReadingContent(segments);
     };
@@ -183,7 +183,6 @@ function App() {
                 }
             } catch (error: any) {
                 console.error(`Error processing word ${cleanWord}:`, error);
-                alert("Translation Error: " + (error.message || error));
                 setPopup(null);
             }
         }, 300);
@@ -234,7 +233,7 @@ function App() {
                 />
                 <div style={{display: 'flex', gap: '10px'}}>
                     <button className={styles.button} onClick={handleStartReading}>Start Reading</button>
-                    <button className={styles.button} onClick={handleSaveArticle}>Save Article</button>
+                    <button className={`${styles.button} ${styles.secondaryButton}`} style={{background: 'var(--bg-3)', color: 'var(--text)'}} onClick={handleSaveArticle}>Save Article</button>
                 </div>
             </div>
             {readingContent.length > 0 && (
@@ -262,8 +261,8 @@ function App() {
     const renderWordBookPage = () => (
         <div className={styles.wordBookPage}>
             <div className={styles.wordBookHeader}>
-                <h2>Word Book ({wordBook.length})</h2>
-                <button className={styles.button} onClick={fetchWordBook}>Refresh</button>
+                <h2 style={{color: 'var(--text)'}}>Word Book ({wordBook.length})</h2>
+                <button className={styles.actionButton} onClick={fetchWordBook}>Refresh</button>
             </div>
             <ul className={styles.wordList}>
                 {wordBook.map((item) => (
@@ -296,21 +295,21 @@ function App() {
     const renderArticlesPage = () => (
         <div className={styles.wordBookPage}>
             <div className={styles.wordBookHeader}>
-                <h2>Saved Articles ({articles.length})</h2>
-                <button className={styles.button} onClick={fetchArticles}>Refresh</button>
+                <h2 style={{color: 'var(--text)'}}>Saved Articles ({articles.length})</h2>
+                <button className={styles.actionButton} onClick={fetchArticles}>Refresh</button>
             </div>
             <ul className={styles.wordList}>
                 {articles.map((item) => (
                     <li key={item.id} className={styles.wordItem} style={{flexDirection: 'column', alignItems: 'flex-start'}}>
                         <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                            <div style={{fontWeight: 'bold', cursor: 'pointer', color: '#1a73e8'}} onClick={() => handleLoadArticle(item.content)}>
+                            <div style={{fontWeight: 'bold', cursor: 'pointer', color: 'var(--accent)'}} onClick={() => handleLoadArticle(item.content)}>
                                 {item.title || 'Untitled'}
                             </div>
                             <button className={`${styles.actionButton} ${styles.removeButton}`} onClick={() => handleDeleteArticle(item.id)}>
                                 Delete
                             </button>
                         </div>
-                        <div style={{fontSize: '0.8em', color: '#666', marginTop: '5px'}}>
+                        <div style={{fontSize: '0.8em', color: 'var(--text-3)', marginTop: '5px'}}>
                             Saved at: {new Date(item.created_at).toLocaleString()}
                         </div>
                     </li>
@@ -320,25 +319,30 @@ function App() {
     );
 
     const renderSettingsPage = () => (
-        <div className={styles.settingsPage} style={{padding: '20px'}}>
-            <h2>Settings</h2>
-            <div style={{marginTop: '20px'}}>
-                <label style={{display: 'block', marginBottom: '10px'}}>DeepL API Key (Free API):</label>
+        <div className={styles.settingsPage}>
+            <h2 className={styles.settingsTitle}>Settings</h2>
+            <div className={styles.settingGroup}>
+                <label className={styles.settingLabel}>DeepL API Key (Free API):</label>
                 <input 
                     type="password" 
+                    className={styles.settingInput}
                     value={apiKey} 
                     onChange={e => setApiKey(e.target.value)} 
-                    style={{width: '100%', padding: '8px', marginBottom: '15px'}}
+                    placeholder="Enter your DeepL API key"
                 />
-                <button className={styles.button} onClick={saveSettings}>Save Settings</button>
-                {saveStatus && <p style={{color: 'green', marginTop: '10px'}}>{saveStatus}</p>}
             </div>
+            <button className={styles.button} onClick={saveSettings}>Save Settings</button>
+            {saveStatus && <p style={{color: 'var(--green)', marginTop: '15px', fontSize: '14px'}}>{saveStatus}</p>}
         </div>
     );
 
     return (
-        <div className={styles.app} data-wails-drag>
+        <div className={styles.app}>
             <nav className={styles.nav}>
+                <div className={styles.logoSection}>
+                    <img src={logo} alt="Logo" className={styles.logo} />
+                    <span className={styles.brandName}>Word Reader</span>
+                </div>
                 <div className={styles.segmentedControl}>
                     <button
                         onClick={() => setCurrentPage('reading')}
@@ -377,19 +381,18 @@ function App() {
             {popup && (
                 <div className={styles.popup} style={{ top: popup.position.y, left: popup.position.x }}>
                     {popup.loading ? (
-                        <div>Loading translation...</div>
+                        <div style={{color: 'var(--text-3)', fontSize: '14px'}}>Translating...</div>
                     ) : popup.data ? (
                         <>
                             <div className={styles.popupHeader}>
-                                <strong>{popup.data.word}</strong>
-                                <span className={styles.phonetic}>[{popup.data.phonetic}]</span>
+                                <div className={styles.popupWord}>{popup.data.word}</div>
+                                <span className={styles.phonetic}>{popup.data.phonetic}</span>
                                 <button
                                     className={`${styles.saveButton} ${isWordSaved(popup.data.word) ? styles.saved : ''}`}
                                     onClick={() => handleSaveWord(popup.data!)}
-                                    title={isWordSaved(popup.data.word) ? "Already in word book" : "Save to word book"}
                                     disabled={isWordSaved(popup.data.word)}
                                 >
-                                    ★
+                                    {isWordSaved(popup.data.word) ? '✓' : '★'}
                                 </button>
                             </div>
                             <p className={styles.translation}>{popup.data.translation}</p>
