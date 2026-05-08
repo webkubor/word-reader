@@ -1,0 +1,40 @@
+.app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+.nav { display: flex; gap: 0; padding: 0 20px; background: var(--bg); border-bottom: 1px solid var(--border); -webkit-app-region: drag; }
+.segmentedControl { display: flex; gap: 10px; margin-top: 10px; margin-bottom: 10px; }
+.navButton { padding: 8px 16px; border: none; background: transparent; color: var(--text-3); font-size: 14px; cursor: pointer; transition: color 0.2s; }
+.navButton.active { color: var(--text); border-bottom: 2px solid var(--accent); }
+.content { flex: 1; overflow-y: auto; padding: 24px; background: var(--bg-2); }
+
+.readingPage { display: flex; flex-direction: column; height: 100%; gap: 20px; }
+.readingForm { display: flex; flex-direction: column; gap: 10px; }
+.titleInput { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 16px; box-sizing: border-box; }
+.textarea { width: 100%; height: 150px; padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 16px; box-sizing: border-box; resize: vertical; }
+.button { padding: 10px 20px; background: var(--bg-3); border: 1px solid var(--border-2); border-radius: var(--radius); color: var(--text); cursor: pointer; font-size: 14px; transition: background 0.2s; }
+.button:hover { background: var(--accent-dim); }
+
+.readingArea { padding: 20px; background: var(--bg); border-radius: var(--radius); line-height: 1.8; font-size: 18px; }
+.wordSpan { cursor: pointer; transition: color 0.2s; display: inline-block; padding: 0 2px; }
+.wordSpan:hover { color: var(--accent); background: var(--accent-dim); border-radius: 4px; }
+
+.wordBookPage { display: flex; flex-direction: column; gap: 20px; height: 100%; }
+.wordBookHeader { display: flex; justify-content: space-between; align-items: center; }
+.wordList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.wordItem { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); }
+.wordInfo { flex: 1; cursor: pointer; }
+.word { font-size: 18px; font-weight: 500; color: var(--accent-text); }
+.translationSmall { font-size: 14px; color: var(--text-2); margin-top: 4px; }
+.noteInput { flex: 1; margin: 0 20px; padding: 8px 12px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 6px; color: var(--text); }
+.wordActions { display: flex; gap: 10px; }
+.actionButton { padding: 6px 12px; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-2); cursor: pointer; }
+.actionButton:hover { color: var(--text); border-color: var(--text); }
+.removeButton:hover { color: #ff4d4f; border-color: #ff4d4f; }
+
+.popup { position: fixed; background: var(--bg-3); border: 1px solid var(--border-2); border-radius: var(--radius); padding: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000; min-width: 200px; }
+.popupHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.phonetic { color: var(--text-3); margin-left: 10px; font-family: monospace; }
+.saveButton { background: transparent; border: none; font-size: 20px; cursor: pointer; color: var(--border-2); }
+.saveButton:hover { color: var(--accent); }
+.saveButton.saved { color: var(--green); cursor: default; }
+.translation { font-size: 15px; color: var(--text); margin: 0; }
+
+.settingsPage { display: flex; flex-direction: column; gap: 20px; }
